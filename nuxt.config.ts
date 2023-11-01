@@ -29,6 +29,8 @@ export default defineNuxtConfig({
   components: [
     '~/Components',
     { path: '~/Components/Common' },
+    { path: '~/Components/Forms' },
+    { path: '~/Components/Rooms' },
   ],
 
   css: [

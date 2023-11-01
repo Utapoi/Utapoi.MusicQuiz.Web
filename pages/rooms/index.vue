@@ -2,6 +2,17 @@
 import { useRoomsStore } from '~/Composables/Stores/RoomsStore'
 import type { Room } from '~/Core/Models/Room'
 
+useHead({
+  title: 'Rooms · Utapoi',
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: 'Browse all the rooms',
+    },
+  ],
+})
+
 interface ISearchFilters {
   query?: string
   sorting?: string
@@ -52,7 +63,7 @@ async function OnSearchQueryChanged() {
 </script>
 
 <template>
-  <div class="mx-auto max-w-7xl px-4 py-4 md:px-8 md:py-8">
+  <div class="mx-auto max-w-7xl px-4 py-4 font-sans md:px-8 md:py-8">
     <div class="flex flex-col">
       <div class="text-3xl font-semibold text-latte-text dark:text-mocha-text">
         Rooms
@@ -64,49 +75,51 @@ async function OnSearchQueryChanged() {
 
     <!-- Search -->
     <div class="mb-8 mt-12 w-full flex gap-2 text-latte-text dark:text-mocha-text">
-      <div class="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-latte-surface1 px-3 py-1 shadow md:w-66 dark:bg-mocha-surface1 hover:bg-latte-surface2 hover:dark:bg-mocha-surface2">
-        <span class="i-fluent:search-16-filled text-lg" />
-        <input
-          v-model="SearchFilters.query"
-          class="w-full bg-transparent outline-none"
-          placeholder="Search..."
-          type="text"
-          @input="OnSearchQueryChanged"
-        >
-      </div>
-      <div v-if="HasSearchFilters" class="flex cursor-pointer items-center gap-1 rounded-full bg-latte-surface1 px-3 py-1 text-latte-text dark:bg-mocha-surface1 dark:text-mocha-text">
-        <span>Name</span>
-        <span class="i-fluent:arrow-down-16-filled text-sm" />
+      <div class="w-full flex items-center justify-start gap-2">
+        <div class="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-latte-surface1 px-3 py-1 shadow md:w-66 dark:bg-mocha-surface1 hover:bg-latte-surface2 hover:dark:bg-mocha-surface2">
+          <span class="i-fluent:search-16-filled text-lg" />
+          <input
+            v-model="SearchFilters.query"
+            class="w-full bg-transparent outline-none"
+            placeholder="Search..."
+            type="text"
+            @input="OnSearchQueryChanged"
+          >
+        </div>
+        <div v-if="HasSearchFilters" class="flex cursor-pointer items-center gap-1 rounded-full bg-latte-surface1 px-3 py-1 text-latte-text dark:bg-mocha-surface1 dark:text-mocha-text">
+          <span>Name</span>
+          <span class="i-fluent:arrow-down-16-filled text-sm" />
+        </div>
+        <NuxtLink to="/rooms/create" class="ml-4 flex cursor-pointer items-center gap-1 rounded-full bg-latte-red px-3 py-1 text-latte-base dark:bg-mocha-red dark:text-mocha-base">
+          <span>Create</span>
+          <span class="i-fluent:add-16-filled text-sm" />
+        </NuxtLink>
       </div>
     </div>
 
     <!-- Rooms -->
-    <div v-if="!HasSearchFilters">
-      <!-- Friends -->
-      <div>
+    <div v-if="!HasSearchFilters" class="text-latte-text dark:text-mocha-text">
+      <!-- TODO: Friends -->
+      <!-- <div>
         <div class="flex items-center justify-between">
-          <h2 class="mb-2 text-lg font-semibold font-serif uppercase text-latte-overlay0 dark:text-mocha-overlay0">
+          <h2 class="mb-2 text-lg font-semibold font-sans uppercase text-latte-overlay0 dark:text-mocha-overlay0">
             Friends
           </h2>
         </div>
         <div class="grid grid-cols-3 max-w-10xl max-w-10xl w-full w-full gap-4 3xl:grid-cols-9 lg:grid-cols-5 md:grid-cols-4 xl:grid-cols-7">
-          <div v-for="room in Rooms" :key="room.Id">
-            {{ room.Id }}
-          </div>
+          <RoomCard v-for="room in Rooms" :key="room.Id" :room="room" />
         </div>
-      </div>
+      </div> -->
 
       <!-- All -->
       <div class="mt-16">
         <div class="flex items-center justify-between">
-          <h2 class="mb-2 text-lg font-semibold font-serif uppercase text-latte-overlay0 dark:text-mocha-overlay0">
+          <h2 class="mb-2 text-lg font-semibold font-sans uppercase text-latte-overlay0 dark:text-mocha-overlay0">
             All
           </h2>
         </div>
         <div class="grid grid-cols-3 max-w-10xl max-w-10xl w-full w-full gap-4 3xl:grid-cols-9 lg:grid-cols-5 md:grid-cols-4 xl:grid-cols-7">
-          <div v-for="room in Rooms" :key="room.Id">
-            {{ room.Id }}
-          </div>
+          <RoomCard v-for="room in Rooms" :key="room.Id" :room="room" />
         </div>
       </div>
     </div>
@@ -119,10 +132,8 @@ async function OnSearchQueryChanged() {
       <p class="mb-6 font-semibold text-latte-overlay0 dark:text-mocha-overlay0">
         for <span class="ml-1 rounded-full bg-latte-sky px-2 py-0.5 text-sm font-semibold text-latte-base dark:bg-mocha-sky dark:text-mocha-base">{{ SearchFilters.query }}</span>
       </p>
-      <div class="grid grid-cols-3 max-w-10xl max-w-10xl w-full w-full gap-4 3xl:grid-cols-9 lg:grid-cols-5 md:grid-cols-4 xl:grid-cols-7">
-        <div v-for="room in Rooms" :key="room.Id">
-          {{ room.Id }}
-        </div>
+      <div class="grid grid-cols-3 max-w-10xl max-w-10xl w-full w-full gap-4 text-latte-text 3xl:grid-cols-9 lg:grid-cols-5 md:grid-cols-4 xl:grid-cols-7 dark:text-mocha-text">
+        <RoomCard v-for="room in Rooms" :key="room.Id" :room="room" />
       </div>
     </div>
   </div>

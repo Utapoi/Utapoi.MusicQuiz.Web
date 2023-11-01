@@ -44,7 +44,7 @@ export function useHttpClient() {
     if (body === undefined)
       body = {}
 
-    const { data, error } = await ApiFetcher(url, options).post(body).json()
+    const { data, error } = await ApiFetcher(url, options).post(body).json<T>()
 
     if (error.value != null)
       return ApiError.FromJson(error.value)
