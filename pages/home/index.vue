@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UseHub } from '~/Stores/SignalR/UseHub'
+import { UseHub } from '~/Composables/Stores/UseHub'
 
 const Hub = UseHub()
 
