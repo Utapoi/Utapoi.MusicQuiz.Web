@@ -6,6 +6,9 @@ export const UseHub = defineStore('UseHub', () => {
   const Connection = ref<HubConnection | undefined>(undefined)
 
   async function ConnectAsync() {
+    if (Connection.value)
+      return
+
     Connection.value = new HubConnectionBuilder()
       .withUrl(Config.public.MQ_SIGNALR_URL)
       .configureLogging(LogLevel.Information)
