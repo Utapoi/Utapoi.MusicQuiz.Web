@@ -75,7 +75,7 @@ export default defineNuxtConfig({
     public: {
       DOMAIN: 'localhost',
       UTAPOI_API_URL: 'https://localhost:7215', // 'http://localhost:5215',
-      MQ_SIGNALR_URL: 'https://localhost:7215', // 'http://localhost:5215',
+      MQ_SIGNALR_URL: 'https://localhost:7027/SignalR', // 'http://localhost:5215',
     },
   },
 })
