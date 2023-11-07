@@ -35,7 +35,6 @@ export const useIdentityStore = defineStore('identity', () => {
   }
 
   function IsAuthenticated(): boolean {
-    console.log(CurrentUser.value !== undefined || AuthInfo.value !== undefined)
     return CurrentUser.value !== undefined || AuthInfo.value !== undefined
   }
 
@@ -46,11 +45,21 @@ export const useIdentityStore = defineStore('identity', () => {
     return CurrentUser.value.Username
   }
 
+  function HasAvatar(): boolean {
+    return false
+  }
+
+  function GetAvatar(): string | undefined {
+    return undefined
+  }
+
   return {
     CurrentUser,
     LogInAsync,
     IsAuthenticated,
     GetCurrentUser,
     GetUsername,
+    HasAvatar,
+    GetAvatar,
   }
 })

@@ -15,7 +15,7 @@ export const useRoomsStore = defineStore('rooms', () => {
     const response = await HttpClient.Get<GetRoomsResponse>('/Rooms')
 
     if (response !== undefined)
-      Rooms.value = response.Rooms.map(r => Room.FromResponse(r))
+      Rooms.value = response.Rooms.map((r: IRoom) => Room.FromResponse(r))
 
     return Rooms.value
   }
@@ -24,7 +24,7 @@ export const useRoomsStore = defineStore('rooms', () => {
     const response = await HttpClient.Get<GetRoomsResponse>(`/Rooms?query=${query}`)
 
     if (response !== undefined)
-      Rooms.value = response.Rooms.map(r => Room.FromResponse(r))
+      Rooms.value = response.Rooms.map((r: IRoom) => Room.FromResponse(r))
 
     return Rooms.value
   }

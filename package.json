@@ -30,7 +30,8 @@
     "pinia": "^2.1.7",
     "typescript": "^5.2.2",
     "vue": "^3.3.7",
-    "vue-tsc": "^1.8.22"
+    "vue-tsc": "^1.8.22",
+    "winston": "^3.11.0"
   },
   "dependencies": {
     "@microsoft/signalr": "^7.0.12",

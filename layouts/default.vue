@@ -14,8 +14,10 @@ async function OnLogInClicked(): Promise<void> {
 </script>
 
 <template>
-  <header>
-    <section class="w-full px-6">
+  <div class="h-full overflow-y-hidden">
+    <header>
+      <MenuBar />
+    <!-- <section class="w-full px-6">
       <div class="mx-auto h-16 max-w-7xl w-full flex items-center justify-between">
         <div class="flex items-start gap-1.5">
           <h1 class="text-2xl font-semibold text-[#f90b31]">
@@ -48,11 +50,10 @@ async function OnLogInClicked(): Promise<void> {
           </div>
         </div>
       </div>
-    </section>
-  </header>
-  <main class="min-h-full w-full">
-    <div class="min-h-full w-full">
+    </section> -->
+    </header>
+    <main class="h-screen w-screen">
       <slot />
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
