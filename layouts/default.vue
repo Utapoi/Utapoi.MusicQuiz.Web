@@ -1,5 +1,16 @@
 <script setup lang="ts">
+import { useIdentityStore } from '~/Composables/Stores/IdentityStore'
+
 const Route = useRoute()
+const IdentityStore = useIdentityStore()
+
+if (IdentityStore.IsAuthenticated())
+  IdentityStore.GetCurrentUser()
+
+// This is a temporary function until we have a proper login page
+async function OnLogInClicked(): Promise<void> {
+  await IdentityStore.LogInAsync('test', 'Test123$')
+}
 </script>
 
 <template>
@@ -27,6 +38,12 @@ const Route = useRoute()
 
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-4">
+            <div v-if="IdentityStore.IsAuthenticated()" class="text-latte-text dark:text-mocha-text">
+              {{ IdentityStore.GetUsername() }}
+            </div>
+            <div v-else class="cursor-pointer text-latte-red dark:text-mocha-red" @click.prevent="OnLogInClicked">
+              Log In
+            </div>
             <DarkToggle />
           </div>
         </div>

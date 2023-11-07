@@ -1,11 +1,14 @@
 import { createFetch } from '@vueuse/core'
 import { ApiError } from '~/Core/Models/Error'
+import type { IUser } from '~/Core/Models/User'
+import type { ILogInRequest } from '~/Core/Requests/Auth/LogInRequest'
+import type { ILogInResponse } from '~/Core/Responses/Auth/LogInResponse'
 
-export function useHttpClient() {
+export function useAuthClient() {
   const RuntimeConfig = useRuntimeConfig()
 
   const ApiFetcher = createFetch({
-    baseUrl: RuntimeConfig.public.MQ_API_URL,
+    baseUrl: RuntimeConfig.public.AUTH_API_URL as string,
     options: {
       updateDataOnError: false,
       onFetchError(ctx) {
@@ -16,13 +19,28 @@ export function useHttpClient() {
     },
   })
 
-  async function Delete(url: string, options?: RequestInit): Promise<void> {
-    if (options === undefined)
-      options = {}
+  async function LogInAsync(req: ILogInRequest): Promise<ILogInResponse | ApiError> {
+    const response = await Post<ILogInResponse>('/Auth/LogIn', {}, req)
 
-    options.credentials = 'include'
+    if (response instanceof ApiError)
+      return response as ApiError
 
-    await ApiFetcher(url, options).delete()
+    if (response === undefined)
+      return ApiError.UnknowError()
+
+    return response as ILogInResponse
+  }
+
+  async function GetCurrentUserAsync(): Promise<IUser | ApiError> {
+    const response = await Get<IUser>('/Users/Me')
+
+    if (response instanceof ApiError)
+      return response
+
+    if (response === undefined)
+      return ApiError.UnknowError()
+
+    return response as IUser
   }
 
   async function Get<T>(url: string, options?: RequestInit): Promise<T | undefined> {
@@ -45,10 +63,10 @@ export function useHttpClient() {
     if (options === undefined)
       options = {}
 
+    options.credentials = 'include'
+
     if (body === undefined)
       body = {}
-
-    options.credentials = 'include'
 
     const { data, error } = await ApiFetcher(url, options).post(body).json<T>()
 
@@ -61,27 +79,8 @@ export function useHttpClient() {
     return undefined
   }
 
-  async function Patch<T>(url: string, options?: RequestInit, body: any = undefined): Promise<T | undefined> {
-    if (options === undefined)
-      options = {}
-
-    if (body === undefined)
-      body = {}
-
-    options.credentials = 'include'
-
-    const { data: r } = await ApiFetcher(url, options).patch(body)
-
-    if (r.value !== null)
-      return r.value as T
-
-    return undefined
-  }
-
   return {
-    Delete,
-    Get,
-    Post,
-    Patch,
+    LogInAsync,
+    GetCurrentUserAsync,
   }
 }
