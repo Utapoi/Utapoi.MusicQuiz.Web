@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { required } from '@vuelidate/validators'
+import { maxLength, minLength, required } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import type { ILogInRequest } from '~/Core/Requests/Auth/LogInRequest'
 import { useIdentityStore } from '~/Composables/Stores/IdentityStore'
@@ -26,7 +26,11 @@ const IsDisabled = computed(() => IsSubmitting.value || !v.value.$anyDirty || v.
       :show-label="false"
       :show-error-message="false"
       class="w-full"
-      :rules="{ required }"
+      :rules="{
+        required,
+        maxLength: maxLength(18),
+        minLength: minLength(3),
+      }"
     />
     <TextInputField
       v-model="Info.Password"
@@ -37,7 +41,11 @@ const IsDisabled = computed(() => IsSubmitting.value || !v.value.$anyDirty || v.
       :show-error-message="false"
       class="w-full"
       type="password"
-      :rules="{ required }"
+      :rules="{
+        required,
+        maxLength: maxLength(50),
+        minLength: minLength(8), // Add : 1 digit, 1 uppercase, 1 lowercase, 1 special character
+      }"
     />
     <button
       type="submit"

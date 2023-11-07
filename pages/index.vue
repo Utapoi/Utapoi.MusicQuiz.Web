@@ -11,11 +11,11 @@ useHead({
   <!-- Collections -->
   <div class="relative h-full w-full">
     <div class="h-full w-full">
-      <div class="h-full w-full flex items-center justify-center text-latte-text dark:text-mocha-text">
-        a
+      <div class="z-2 h-full w-full flex items-center justify-center text-latte-text dark:text-mocha-text">
+        <MainMenu />
       </div>
     </div>
-    <NuxtImg src="/images/Utapoi_Girl_v1.png" class="absolute inset-0 h-full w-full object-cover object-top -z-1" />
+    <NuxtImg src="/images/Utapoi_Girl_v1.png" class="absolute z-1 h-full w-full object-cover" />
     <NuxtImg src="/images/HomeScreen_Wallpaper.png" class="absolute inset-0 h-full w-full object-cover object-top -z-1" />
   </div>
 </template>

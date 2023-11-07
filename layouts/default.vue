@@ -7,7 +7,7 @@ IdentityStore.GetCurrentUser()
 </script>
 
 <template>
-  <div class="h-full overflow-y-hidden">
+  <div class="h-full overflow-hidden">
     <header>
       <MenuBar />
     </header>
