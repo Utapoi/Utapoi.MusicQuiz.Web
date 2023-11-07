@@ -5,11 +5,14 @@ export default defineNuxtConfig({
   devServer: {
     port: 3001,
   },
+  spaLoadingTemplate: false,
   modules: [
     '@vueuse/nuxt',
+    '@vueuse/motion/nuxt',
     '@unocss/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
+    '@nuxt/image',
   ],
 
   colorMode: {
@@ -28,9 +31,11 @@ export default defineNuxtConfig({
 
   components: [
     '~/Components',
+    { path: '~/Components/Auth' },
     { path: '~/Components/Common' },
     { path: '~/Components/Forms' },
     { path: '~/Components/Rooms' },
+    { path: '~/Components/Users' },
   ],
 
   css: [

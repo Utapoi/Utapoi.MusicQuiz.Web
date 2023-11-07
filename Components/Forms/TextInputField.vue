@@ -11,6 +11,7 @@ export interface TextInputFieldProps {
   value?: string | null
   placeholder: string
   showLabel?: boolean
+  showErrorMessage?: boolean
   type?: string
   rules?: ValidationArgs
 }
@@ -23,6 +24,7 @@ interface IValidationType {
 const Props = withDefaults(defineProps<TextInputFieldProps>(), {
   placeholder: 'Enter text here',
   showLabel: true,
+  showErrorMessage: true,
   type: 'text',
 })
 
@@ -72,7 +74,7 @@ function OnInputChanged() {
     >
     <div class="h-4">
       <span
-        v-if="v.$invalid && v.$silentErrors"
+        v-if="v.$invalid && v.$silentErrors && showErrorMessage === true"
         class="ml-2 mt-1 text-xs text-red-400"
       >
         {{ v.$silentErrors.at(0)?.$message }}.

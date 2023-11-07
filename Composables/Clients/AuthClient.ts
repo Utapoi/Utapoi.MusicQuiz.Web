@@ -3,6 +3,7 @@ import { ApiError } from '~/Core/Models/Error'
 import type { IUser } from '~/Core/Models/User'
 import type { ILogInRequest } from '~/Core/Requests/Auth/LogInRequest'
 import type { ILogInResponse } from '~/Core/Responses/Auth/LogInResponse'
+import type { ILogOutResponse } from '~/Core/Responses/Auth/LogOutResponse'
 
 export function useAuthClient() {
   const RuntimeConfig = useRuntimeConfig()
@@ -29,6 +30,15 @@ export function useAuthClient() {
       return ApiError.UnknowError()
 
     return response as ILogInResponse
+  }
+
+  async function LogOutAsync(): Promise<ILogOutResponse | ApiError> {
+    const response = await Post<ILogOutResponse>('Auth/LogOut')
+
+    if (response instanceof ApiError)
+      return response as ApiError
+
+    return response as ILogOutResponse
   }
 
   async function GetCurrentUserAsync(): Promise<IUser | ApiError> {
@@ -81,6 +91,7 @@ export function useAuthClient() {
 
   return {
     LogInAsync,
+    LogOutAsync,
     GetCurrentUserAsync,
   }
 }

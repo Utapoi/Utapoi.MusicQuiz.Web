@@ -17,6 +17,18 @@ export const useIdentityStore = defineStore('identity', () => {
     return await GetCurrentUser()
   }
 
+  async function LogOutAsync(): Promise<boolean> {
+    const response = await AuthClient.LogOutAsync()
+
+    if (response instanceof ApiError)
+      return false
+
+    CurrentUser.value = undefined
+    AuthInfo.value = undefined
+
+    return true
+  }
+
   async function GetCurrentUser(): Promise<boolean> {
     if (IsAuthenticated()) {
       CurrentUser.value = JSON.parse(AuthInfo.value as string)
@@ -56,6 +68,7 @@ export const useIdentityStore = defineStore('identity', () => {
   return {
     CurrentUser,
     LogInAsync,
+    LogOutAsync,
     IsAuthenticated,
     GetCurrentUser,
     GetUsername,
