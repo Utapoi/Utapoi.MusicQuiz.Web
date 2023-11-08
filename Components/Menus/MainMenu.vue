@@ -18,7 +18,7 @@ import type { MenuCard } from '#build/components';
         <MenuCard
           title="Multiplayer"
           image="/images/Button_Multi_Background.png"
-          link="/rooms"
+          link="/multiplayer"
         />
 
         <!-- Collections -->
@@ -32,7 +32,7 @@ import type { MenuCard } from '#build/components';
         <MenuCard
           title="Singleplayer"
           image="/images/Button_Solo_Background.png"
-          link="/solo"
+          link="/singleplayer"
         />
 
         <!-- Profile -->
@@ -47,6 +47,8 @@ import type { MenuCard } from '#build/components';
 </template>
 
 <style scoped>
+/* All this stuff is not really responsive, but we don't plan to support mobile so I suppose its fine. */
+
 .custom-grid {
   --s: 14rem; /* control the size */
   display: grid;

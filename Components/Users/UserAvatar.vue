@@ -1,11 +1,40 @@
 <script setup lang="ts">
+import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
 import { useIdentityStore } from '~/Composables/Stores/IdentityStore'
 
 const IdentityStore = useIdentityStore()
 const Route = useRoute()
+const GlobalSettings = useGlobalSettings()
 
 const UserAvatarRef = ref<HTMLElement | null>(null)
 const IsOpen = ref<boolean>(false)
+
+const HoverSound = new Howl({
+  src: ['/sfx/Button_Hover.ogg'],
+  volume: GlobalSettings.GetEffectsVolume(),
+})
+
+const PanelOpenSound = new Howl({
+  src: ['/sfx/Panel_Open.wav'],
+  volume: GlobalSettings.GetEffectsVolume(),
+})
+
+function OnMouseEnter() {
+  if (HoverSound.playing())
+    return
+
+  HoverSound.play()
+}
+
+async function OnClick() {
+  IsOpen.value = true
+}
+
+watch(IsOpen, () => {
+  if (PanelOpenSound.playing())
+    return
+  PanelOpenSound.play()
+})
 
 watch(() => Route.fullPath, (_) => {
   IsOpen.value = false
@@ -16,7 +45,8 @@ watch(() => Route.fullPath, (_) => {
   <div
     ref="UserAvatarRef"
     class="h-full cursor-pointer select-none bg-latte-surface1 px-3 text-latte-text dark:bg-mocha-surface1 dark:text-mocha-text"
-    @click.prevent="IsOpen = !IsOpen"
+    @mouseenter="OnMouseEnter"
+    @click.prevent="OnClick"
   >
     <div class="h-full flex items-center justify-center gap-2 px-2">
       <div>

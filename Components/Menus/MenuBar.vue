@@ -7,24 +7,20 @@ const { isFullscreen, toggle } = useFullscreen()
     <div class="flex items-center justify-between">
       <!-- Left Menu -->
       <div class="flex items-center gap-1 pl-3">
-        <NuxtLink to="/" class="cursor-pointer p-2 text-latte-text transition-all duration-150 hover:border-rounded-md hover:bg-latte-overlay0/25 dark:text-mocha-text !outline-none hover:dark:bg-mocha-overlay0/25">
-          <div class="i-fluent:home-32-regular" />
-        </NuxtLink>
+        <MenuButton
+          icon="fluent:home-32-regular"
+          link="/"
+        />
 
-        <div
-          class="cursor-pointer p-2 text-latte-text transition-all duration-150 hover:border-rounded-md hover:bg-latte-overlay0/25 dark:text-mocha-text !outline-none hover:dark:bg-mocha-overlay0/25"
-          @click.prevent="toggle"
-        >
-          <div
-            :class="{
-              'i-fluent:full-screen-minimize-24-regular': isFullscreen,
-              'i-fluent:full-screen-maximize-24-regular': !isFullscreen,
-            }"
-          />
-        </div>
-        <div class="cursor-pointer p-2 text-latte-text transition-all duration-150 hover:border-rounded-md hover:bg-latte-overlay0/25 dark:text-mocha-text !outline-none hover:dark:bg-mocha-overlay0/25">
-          <div class="i-fluent:settings-32-regular" />
-        </div>
+        <MenuButton
+          :icon="isFullscreen ? 'fluent:full-screen-minimize-24-regular' : 'fluent:full-screen-maximize-24-regular'"
+          @on-click="toggle"
+        />
+
+        <MenuButton
+          icon="fluent:settings-32-regular"
+          link="/settings"
+        />
       </div>
 
       <!-- User Info / Settings -->

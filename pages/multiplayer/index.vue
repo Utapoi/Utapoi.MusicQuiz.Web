@@ -8,7 +8,7 @@ useHead({
     {
       hid: 'description',
       name: 'description',
-      content: 'Browse all the rooms',
+      content: 'Play with your friends',
     },
   ],
 })
@@ -90,7 +90,7 @@ async function OnSearchQueryChanged() {
           <span>Name</span>
           <span class="i-fluent:arrow-down-16-filled text-sm" />
         </div>
-        <NuxtLink to="/rooms/create" class="ml-4 flex cursor-pointer items-center gap-1 rounded-full bg-latte-red px-3 py-1 text-latte-base dark:bg-mocha-red dark:text-mocha-base">
+        <NuxtLink to="/multiplayer/create" class="ml-4 flex cursor-pointer items-center gap-1 rounded-full bg-latte-red px-3 py-1 text-latte-base dark:bg-mocha-red dark:text-mocha-base">
           <span>Create</span>
           <span class="i-fluent:add-16-filled text-sm" />
         </NuxtLink>

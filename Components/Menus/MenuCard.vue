@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Howl } from 'howler'
+import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
 
 export interface IMenuCardProps {
   title: string
@@ -10,19 +11,20 @@ export interface IMenuCardProps {
 const Props = defineProps<IMenuCardProps>()
 
 const Router = useRouter()
+const GlobalSettings = useGlobalSettings()
 
 const ImageBg = computed(() => {
   return `url(${Props.image})`
 })
 
 const HoverSound = new Howl({
-  src: ['/sfx/MenuCard_Hover.wav'],
-  volume: 0.5,
+  src: ['/sfx/Button_Hover.ogg'],
+  volume: GlobalSettings.GetEffectsVolume(),
 })
 
 const ClickSound = new Howl({
-  src: ['/sfx/MenuCard_Click.wav'],
-  volume: 0.5,
+  src: ['/sfx/Button_Click.ogg'],
+  volume: GlobalSettings.GetEffectsVolume(),
 })
 
 function OnMouseEnter() {
