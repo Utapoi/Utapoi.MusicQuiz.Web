@@ -1,3 +1,4 @@
+import { useHttpClient } from '~/Composables/Clients/HttpClient'
 import { ApiError } from '~/Core/Models/Error'
 import { type IRoom, Room } from '~/Core/Models/Room'
 import type { CreateRoomRequest } from '~/Core/Requests/Rooms/CreateRoomRequest'

@@ -18,24 +18,28 @@ import type { MenuCard } from '#build/components';
         <MenuCard
           title="Multiplayer"
           image="/images/Button_Multi_Background.png"
+          link="/rooms"
         />
 
         <!-- Collections -->
         <MenuCard
           title="Collections"
           image="/images/Button_Collections_Background.png"
+          link="/collections"
         />
 
         <!-- Solo -->
         <MenuCard
           title="Singleplayer"
           image="/images/Button_Solo_Background.png"
+          link="/solo"
         />
 
         <!-- Profile -->
         <MenuCard
           title="Profile"
           image="/images/Button_Profile_Background.png"
+          link="/profile"
         />
       </div>
     </div>

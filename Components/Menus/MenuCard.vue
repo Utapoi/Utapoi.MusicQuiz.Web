@@ -1,18 +1,55 @@
 <script setup lang="ts">
+import { Howl } from 'howler'
+
 export interface IMenuCardProps {
   title: string
   image: string
+  link: string
 }
 
 const Props = defineProps<IMenuCardProps>()
 
+const Router = useRouter()
+
 const ImageBg = computed(() => {
   return `url(${Props.image})`
 })
+
+const HoverSound = new Howl({
+  src: ['/sfx/MenuCard_Hover.wav'],
+  volume: 0.5,
+})
+
+const ClickSound = new Howl({
+  src: ['/sfx/MenuCard_Click.wav'],
+  volume: 0.5,
+})
+
+function OnMouseEnter() {
+  if (HoverSound.playing())
+    return
+
+  HoverSound.play()
+}
+
+async function OnClick() {
+  if (ClickSound.playing()) {
+    await Router.push(Props.link)
+    return
+  }
+
+  ClickSound.play()
+  await Router.push(Props.link)
+}
 </script>
 
 <template>
-  <div class="custom-grid-item transform-gpu bg-white p-1.5 transition-all duration-100 !hover:scale-105 !hover:-rotate-45">
+  <div
+    class="custom-grid-item transform-gpu bg-white p-1.5 transition-all duration-100 !hover:scale-105 !hover:-rotate-45"
+    @mouseenter="OnMouseEnter"
+    @mouseleave="OnMouseLeave"
+    @click.prevent="OnClick"
+  >
     <div class="rhombus menu-card-bg h-full w-full bg-cover">
       <div class="h-full w-full bg-black/75">
         <div class="absolute inset-0 h-full w-full flex items-center justify-center text-2xl font-semibold uppercase text-white">
