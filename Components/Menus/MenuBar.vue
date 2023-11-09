@@ -8,17 +8,17 @@ const { isFullscreen, toggle } = useFullscreen()
       <!-- Left Menu -->
       <div class="flex items-center gap-1 pl-3">
         <MenuButton
-          icon="fluent:home-32-regular"
+          icon="i-fluent:home-32-regular"
           link="/"
         />
 
         <MenuButton
-          :icon="isFullscreen ? 'fluent:full-screen-minimize-24-regular' : 'fluent:full-screen-maximize-24-regular'"
+          :icon="isFullscreen ? 'i-fluent:full-screen-minimize-24-regular' : 'i-fluent:full-screen-maximize-24-regular'"
           @on-click="toggle"
         />
 
         <MenuButton
-          icon="fluent:settings-32-regular"
+          icon="i-fluent:settings-32-regular"
           link="/settings"
         />
       </div>

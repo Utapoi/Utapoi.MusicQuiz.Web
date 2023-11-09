@@ -12,9 +12,10 @@ import type { MenuCard } from '#build/components';
 
 <template>
   <div class="h-full w-full">
-    <div class="h-full w-full flex items-center justify-start pl-12%">
+    <div class="h-full w-full flex items-center justify-start lg:pl-3%">
       <div class="custom-grid">
         <!-- Multiplayer -->
+        <!-- Will probably change to a submenu system: Ranked -> Solo / Duo / Team / Back -->
         <MenuCard
           title="Multiplayer"
           image="/images/Button_Multi_Background.png"
@@ -28,32 +29,64 @@ import type { MenuCard } from '#build/components';
           link="/collections"
         />
 
-        <!-- Solo -->
-        <MenuCard
-          title="Singleplayer"
-          image="/images/Button_Solo_Background.png"
-          link="/singleplayer"
-        />
-
         <!-- Profile -->
         <MenuCard
           title="Profile"
           image="/images/Button_Profile_Background.png"
           link="/profile"
         />
+
+        <!-- Play -->
+        <!-- Will probably change to a submenu system: Play -> Singleplayer / Multiplayer / Back -->
+        <MenuCard
+          title="Singleplayer"
+          image="/images/Button_Solo_Background.png"
+          link="/singleplayer"
+        />
+
+        <div class="custom-grid-2 !rotate-0">
+          <MenuCard
+            icon="i-mdi:discord"
+            image="/images/Button_Profile_Background.png"
+            link="/profile"
+          />
+          <MenuCard
+            icon="i-mdi:twitter"
+            image="/images/Button_Profile_Background.png"
+            link="/profile"
+          />
+          <MenuCard
+            icon="i-mdi:patreon"
+            image="/images/Button_Profile_Background.png"
+            link="https://www.patreon.com/utapoi"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
+<!-- TODO: Make this responsive to some degree. At least until landscape on mobile (we'll force landscape to play.) -->
+<!-- TODO: Better naming for css classes, more separation and controls over sizes. -->
+<!-- ? Maybe move this to a separate file -->
+<!-- We should use v-bind(Size) instead of --s -->
+<!-- And v-bind(ItemsCount) for the number of item of the grid -->
 <style scoped>
-/* All this stuff is not really responsive, but we don't plan to support mobile so I suppose its fine. */
-
 .custom-grid {
   --s: 14rem; /* control the size */
   display: grid;
-  grid: auto-flow var(--s) / repeat(2,var(--s));
+  grid: auto-flow var(--s) / repeat(3,var(--s));
   gap: 10px;
+  place-items: center;
+  margin: calc(var(--s)/3);
+  transform: rotate(45deg);
+}
+
+.custom-grid-2 {
+  --s: 6.75rem; /* control the size */
+  display: grid;
+  grid: auto-flow var(--s) / repeat(2,var(--s));
+  gap: 5px;
   place-items: center;
   margin: calc(var(--s)/2);
   transform: rotate(45deg);

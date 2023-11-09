@@ -37,7 +37,10 @@ async function OnClick() {
     if (Props.link === undefined)
       return
 
-    await Router.push(Props.link)
+    if (Props.link.startsWith('http'))
+      return window.open(Props.link, '_blank')
+    else
+      await Router.push(Props.link)
   }
 
   ClickSound.play()
@@ -46,7 +49,10 @@ async function OnClick() {
   if (Props.link === undefined)
     return
 
-  await Router.push(Props.link)
+  if (Props.link.startsWith('http'))
+    return window.open(Props.link, '_blank')
+  else
+    await Router.push(Props.link)
 }
 </script>
 
@@ -59,6 +65,6 @@ async function OnClick() {
     @mouseenter="OnMouseEnter"
     @click.prevent="OnClick"
   >
-    <div :class="`i-${icon}`" />
+    <div :class="`${icon}`" />
   </div>
 </template>

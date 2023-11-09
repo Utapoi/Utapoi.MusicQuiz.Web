@@ -1,26 +1,16 @@
 <script setup lang="ts">
-import { Howl } from 'howler'
 import type { Engine } from 'tsparticles-engine'
 import { loadFull } from 'tsparticles'
 import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
 
-export interface IMenuCardProps {
-  title?: string
-  icon?: string
-  image: string
-  link: string
+export interface IGameModeSelectionCardProps {
+  title: string
+  subtitle: string
 }
 
-const Props = defineProps<IMenuCardProps>()
+defineProps<IGameModeSelectionCardProps>()
 
-const Router = useRouter()
 const GlobalSettings = useGlobalSettings()
-
-const ImageBg = computed(() => {
-  return `url(${Props.image})`
-})
-
-const IsHovered = ref<boolean>(false)
 
 const HoverSound = new Howl({
   src: ['/sfx/Button_Hover.ogg'],
@@ -33,32 +23,17 @@ const ClickSound = new Howl({
 })
 
 function OnMouseEnter() {
-  IsHovered.value = true
-
   if (HoverSound.playing())
     return
 
   HoverSound.play()
 }
 
-function OnMouseLeave() {
-  IsHovered.value = false
-}
-
 async function OnClick() {
-  if (ClickSound.playing()) {
-    if (Props.link.startsWith('http'))
-      return window.open(Props.link, '_blank')
-    else
-      return Router.push(Props.link)
-  }
+  if (ClickSound.playing())
+    return
 
   ClickSound.play()
-
-  if (Props.link.startsWith('http'))
-    return window.open(Props.link, '_blank')
-  else
-    return Router.push(Props.link)
 }
 
 async function InitParticles(engine: Engine) {
@@ -171,46 +146,28 @@ const ParticlesOptions = reactive({
 
 <template>
   <div
-    class="custom-grid-item transform-gpu bg-white p-1.5 transition-all duration-100 !hover:scale-105 !hover:-rotate-45"
+    class="h-4/5 transform-gpu cursor-pointer bg-latte-surface1 p-1 transition-all duration-115 hover:scale-105 dark:bg-white"
     @mouseenter="OnMouseEnter"
-    @mouseleave="OnMouseLeave"
     @click.prevent="OnClick"
   >
-    <div class="rhombus menu-card-bg h-full w-full bg-cover">
+    <div class="h-full w-full bg-[url(/images/HomeScreen_Wallpaper.png)] bg-cover bg-top">
       <div class="h-full w-full bg-black/75">
-        <Particles
-          :id="`particles-${title}-${icon}`"
-          :particles-init="InitParticles"
-          :options="ParticlesOptions"
-        />
-        <div v-if="icon" class="h-full w-full flex items-center justify-center text-4xl font-semibold uppercase text-white">
-          <p :class="icon" />
-        </div>
-        <div v-if="title" class="h-full flex items-center justify-center text-2xl font-semibold uppercase text-white">
-          {{ title }}
+        <div class="h-full w-full">
+          <Particles
+            :id="`particles-${title}`"
+            :particles-init="InitParticles"
+            :options="ParticlesOptions"
+          />
+          <div class="h-full w-full flex flex-col items-center justify-center gap-2">
+            <p class="text-3xl font-semibold uppercase">
+              {{ title }}
+            </p>
+            <p class="border-rounded-full bg-latte-lavender px-2 text-sm uppercase text-latte-base dark:bg-mocha-lavender dark:text-mocha-base">
+              {{ subtitle }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<!-- ! This should be set by the parent, not the child. -->
-<style scoped>
-.custom-grid-item {
-  width: 141%; /* sqrt(2)*100% */
-  aspect-ratio: 1;
-  object-fit: cover;
-  transform: scale(var(--_t,1)) rotate(-45deg);
-  clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
-  cursor: pointer;
-  transition: .2s linear;
-}
-
-.rhombus {
-  clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
-}
-
-.menu-card-bg {
-  background-image: v-bind(ImageBg)
-}
-</style>

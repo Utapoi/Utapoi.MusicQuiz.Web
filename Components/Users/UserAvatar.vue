@@ -44,7 +44,7 @@ watch(() => Route.fullPath, (_) => {
 <template>
   <div
     ref="UserAvatarRef"
-    class="h-full cursor-pointer select-none bg-latte-surface1 px-3 text-latte-text dark:bg-mocha-surface1 dark:text-mocha-text"
+    class="h-full cursor-pointer select-none bg-latte-surface1 px-3 text-latte-text shadow-xl shadow-inset dark:bg-mocha-surface1 dark:text-mocha-text"
     @mouseenter="OnMouseEnter"
     @click.prevent="OnClick"
   >

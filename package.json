@@ -15,6 +15,7 @@
     "@catppuccin/palette": "^0.2.0",
     "@iconify-json/carbon": "^1.1.21",
     "@iconify-json/fluent": "^1.1.39",
+    "@iconify-json/mdi": "^1.1.55",
     "@iconify-json/solar": "^1.1.5",
     "@nuxt/devtools": "latest",
     "@nuxt/image": "^1.0.0",
@@ -24,6 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@unocss/eslint-config": "^0.57.1",
     "@unocss/nuxt": "^0.57.1",
+    "@vite-pwa/nuxt": "^0.1.2",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "@vueuse/motion": "^2.0.0",
@@ -39,6 +41,8 @@
   "dependencies": {
     "@microsoft/signalr": "^7.0.12",
     "@types/signalr": "^2.4.1",
-    "howler": "^2.2.4"
+    "howler": "^2.2.4",
+    "tsparticles": "^2.12.0",
+    "vue3-particles": "^2.12.0"
   }
 }

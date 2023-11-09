@@ -1,3 +1,5 @@
+import { pwa } from './config/pwa'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -13,6 +15,16 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
     '@nuxt/image',
+    '@vite-pwa/nuxt',
+  ],
+
+  pwa,
+
+  plugins: [
+    {
+      src: '~/plugins/vue3-particles.ts',
+      ssr: false,
+    },
   ],
 
   colorMode: {
