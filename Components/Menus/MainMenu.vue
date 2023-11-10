@@ -12,7 +12,7 @@ import type { MenuCard } from '#build/components';
 
 <template>
   <div class="h-full w-full">
-    <div class="h-full w-full flex items-center justify-start lg:pl-3%">
+    <div class="mt-24 h-full w-full flex items-center justify-start lg:pl-3%">
       <div class="custom-grid">
         <!-- Multiplayer -->
         <!-- Will probably change to a submenu system: Ranked -> Solo / Duo / Team / Back -->
@@ -41,7 +41,7 @@ import type { MenuCard } from '#build/components';
         <MenuCard
           title="Singleplayer"
           image="/images/Button_Solo_Background.png"
-          link="/singleplayer"
+          link="/game/mode"
         />
 
         <div class="custom-grid-2 !rotate-0">

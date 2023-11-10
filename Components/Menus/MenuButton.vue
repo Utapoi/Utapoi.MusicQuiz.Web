@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Howl } from 'howler'
 import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
 
 export interface IMenuButtonProps {
@@ -58,9 +59,6 @@ async function OnClick() {
 
 <template>
   <div
-    v-motion
-    :clicked="{ scale: 0.95 }"
-    :delay="115"
     class="cursor-pointer p-2 text-latte-text transition-all duration-150 hover:border-rounded-md hover:bg-latte-overlay0/25 dark:text-mocha-text !outline-none hover:dark:bg-mocha-overlay0/25"
     @mouseenter="OnMouseEnter"
     @click.prevent="OnClick"

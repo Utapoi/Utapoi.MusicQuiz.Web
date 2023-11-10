@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Engine } from 'tsparticles-engine'
-import { loadFull } from 'tsparticles'
 import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
 
 export interface IGameModeSelectionCardProps {
@@ -10,7 +8,13 @@ export interface IGameModeSelectionCardProps {
 
 defineProps<IGameModeSelectionCardProps>()
 
+const Events = defineEmits<{
+  onClick: []
+}>()
+
 const GlobalSettings = useGlobalSettings()
+
+const IsHovered = ref<boolean>(false)
 
 const HoverSound = new Howl({
   src: ['/sfx/Button_Hover.ogg'],
@@ -23,146 +27,62 @@ const ClickSound = new Howl({
 })
 
 function OnMouseEnter() {
+  IsHovered.value = true
+
   if (HoverSound.playing())
     return
 
   HoverSound.play()
 }
 
+function OnMouseLeave() {
+  IsHovered.value = false
+}
+
 async function OnClick() {
-  if (ClickSound.playing())
+  if (ClickSound.playing()) {
+    Events('onClick')
     return
+  }
 
   ClickSound.play()
+  Events('onClick')
 }
-
-async function InitParticles(engine: Engine) {
-  await loadFull(engine)
-}
-
-const ParticlesOptions = reactive({
-  particles: {
-    number: {
-      value: 100,
-      density: {
-        enable: true,
-        area: 400,
-      },
-    },
-    color: {
-      value: '#ffffff',
-    },
-    shape: {
-      type: 'triangle',
-      stroke: {
-        width: 1,
-        color: '#efefef',
-        opacity: 0.5,
-      },
-      polygon: {
-        nb_sides: 5,
-      },
-    },
-    opacity: {
-      value: 0,
-      random: false,
-      anim: {
-        enable: false,
-        speed: 1,
-        opacity_min: 0.1,
-        sync: false,
-      },
-    },
-    size: {
-      value: 12.783201938177186,
-      random: true,
-      anim: {
-        enable: false,
-        speed: 20,
-        size_min: 0.1,
-        sync: false,
-      },
-    },
-    line_linked: {
-      enable: false,
-      distance: 150,
-      color: '#ffffff',
-      opacity: 0.4,
-      width: 1,
-    },
-    move: {
-      enable: true,
-      speed: 1.734960581453156,
-      direction: 'top',
-      random: true,
-      straight: true,
-      out_mode: 'out',
-      bounce: false,
-      attract: {
-        enable: false,
-        rotateX: 600,
-        rotateY: 1200,
-      },
-    },
-  },
-  interactivity: {
-    detect_on: 'canvas',
-    events: {
-      onhover: {
-        enable: true,
-        mode: 'connect',
-      },
-      resize: false,
-    },
-    modes: {
-      grab: {
-        distance: 400,
-        line_linked: {
-          opacity: 1,
-        },
-      },
-      bubble: {
-        distance: 400,
-        size: 40,
-        duration: 2,
-        opacity: 8,
-        speed: 3,
-      },
-      repulse: {
-        distance: 200,
-        duration: 0.4,
-      },
-      push: {
-        particles_nb: 4,
-      },
-      remove: {
-        particles_nb: 2,
-      },
-    },
-  },
-  retina_detect: true,
-})
 </script>
 
 <template>
   <div
-    class="h-4/5 transform-gpu cursor-pointer bg-latte-surface1 p-1 transition-all duration-115 hover:scale-105 dark:bg-white"
+    class="h-4/5 transform-gpu cursor-pointer pl-1 transition-all duration-115 hover:scale-105"
+    :class="{
+      'bg-latte-surface1 dark:bg-white': IsHovered,
+      'bg-latte-surface2 dark:bg-black': !IsHovered,
+    }"
     @mouseenter="OnMouseEnter"
+    @mouseleave="OnMouseLeave"
     @click.prevent="OnClick"
   >
     <div class="h-full w-full bg-[url(/images/HomeScreen_Wallpaper.png)] bg-cover bg-top">
-      <div class="h-full w-full bg-black/75">
-        <div class="h-full w-full">
-          <Particles
-            :id="`particles-${title}`"
-            :particles-init="InitParticles"
-            :options="ParticlesOptions"
-          />
-          <div class="h-full w-full flex flex-col items-center justify-center gap-2">
-            <p class="text-3xl font-semibold uppercase">
-              {{ title }}
-            </p>
-            <p class="border-rounded-full bg-latte-lavender px-2 text-sm uppercase text-latte-base dark:bg-mocha-lavender dark:text-mocha-base">
+      <div class="h-full w-full backdrop-blur-sm">
+        <div class="h-full w-full pl-1">
+          <div class="h-full w-full flex flex-col justify-between py-4 font-sans">
+            <div
+              class="relative shadow-md -mt-10"
+            >
+              <div class="ml-12 mr-2 flex items-center bg-latte-surface0 py-2 text-latte-subtext1 dark:bg-black dark:text-white">
+                <p
+                  class="pl-4 text-left text-2xl font-sans uppercase"
+                >
+                  {{ title }}
+                </p>
+              </div>
+            </div>
+            <p
+              class="bg-black/75 px-2 py-1 text-sm"
+              :class="{
+                'text-latte-text dark:text-white': IsHovered,
+                'text-latte-subtext1 dark:text-mocha-subtext1': !IsHovered,
+              }"
+            >
               {{ subtitle }}
             </p>
           </div>

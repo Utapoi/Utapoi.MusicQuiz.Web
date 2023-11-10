@@ -39,7 +39,7 @@ export default defineConfig({
     presetWebFonts({
       provider: 'google',
       fonts: {
-        sans: 'Quicksand',
+        sans: 'Comfortaa',
         serif: 'Lato',
         mono: 'DM Mono',
       },

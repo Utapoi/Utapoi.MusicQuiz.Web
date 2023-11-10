@@ -3,7 +3,7 @@ const { isFullscreen, toggle } = useFullscreen()
 </script>
 
 <template>
-  <div class="h-12 w-full bg-latte-surface0 text-latte-text shadow dark:bg-mocha-surface0 dark:text-mocha-text">
+  <div class="absolute inset-0 z-5 h-12 w-full bg-latte-surface0 text-latte-text shadow dark:bg-mocha-surface0 dark:text-mocha-text">
     <div class="flex items-center justify-between">
       <!-- Left Menu -->
       <div class="flex items-center gap-1 pl-3">

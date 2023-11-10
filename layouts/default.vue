@@ -7,6 +7,9 @@ IdentityStore.GetCurrentUser()
 </script>
 
 <template>
+  <!-- Make AudioControls available everywhere. -->
+  <AudioControls />
+
   <div class="h-full overflow-hidden">
     <header>
       <MenuBar />
