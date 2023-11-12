@@ -1,14 +1,5 @@
-import type { MenuCard } from '#build/components';
 <script setup lang="ts">
 </script>
-
-        <!-- Solo -->
-        <!-- <div class="rhombus-grid-item h-56 w-56">
-          <NuxtImg src="/images/Square_Button_With_Background.png" class="h-full w-full object-contain" />
-          <div class="absolute inset-0 h-full w-full flex items-center justify-center text-2xl font-semibold uppercase text-white">
-            Solo
-          </div>
-        </div> -->
 
 <template>
   <div class="h-full w-full">

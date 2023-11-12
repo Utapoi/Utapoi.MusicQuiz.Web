@@ -1,39 +1,27 @@
 <script setup lang="ts">
-import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
+import { useAudioManager } from '~/Composables/Managers/AudioManager'
 import { useIdentityStore } from '~/Composables/Stores/IdentityStore'
 
+// Composables
 const IdentityStore = useIdentityStore()
 const Route = useRoute()
-const GlobalSettings = useGlobalSettings()
+const AudioManager = useAudioManager()
 
+// Refs
 const UserAvatarRef = ref<HTMLElement | null>(null)
 const IsOpen = ref<boolean>(false)
 
-const HoverSound = new Howl({
-  src: ['/sfx/Button_Hover.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
-
-const PanelOpenSound = new Howl({
-  src: ['/sfx/Panel_Open.wav'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
-
+// Methods
 function OnMouseEnter() {
-  if (HoverSound.playing())
-    return
-
-  HoverSound.play()
+  AudioManager.PlaySound('Hover_01')
 }
 
-async function OnClick() {
+function OnClick() {
   IsOpen.value = true
 }
 
 watch(IsOpen, () => {
-  if (PanelOpenSound.playing())
-    return
-  PanelOpenSound.play()
+  AudioManager.PlaySound('Panel_Open_01')
 })
 
 watch(() => Route.fullPath, (_) => {

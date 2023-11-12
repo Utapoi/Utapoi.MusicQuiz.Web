@@ -1,38 +1,30 @@
 <script setup lang="ts">
-import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
+import { useAudioManager } from '~/Composables/Managers/AudioManager'
 
 export interface IGameModeSelectionCardProps {
   title: string
   subtitle: string
 }
 
+// Props
 defineProps<IGameModeSelectionCardProps>()
 
+// Emits
 const Events = defineEmits<{
   onClick: []
 }>()
 
-const GlobalSettings = useGlobalSettings()
+// Composables
+const AudioManager = useAudioManager()
 
+// Refs
 const IsHovered = ref<boolean>(false)
 
-const HoverSound = new Howl({
-  src: ['/sfx/Button_Hover.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
-
-const ClickSound = new Howl({
-  src: ['/sfx/Button_Click.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
-
+// Methods
 function OnMouseEnter() {
   IsHovered.value = true
 
-  if (HoverSound.playing())
-    return
-
-  HoverSound.play()
+  AudioManager.PlaySound('Hover_01')
 }
 
 function OnMouseLeave() {
@@ -40,12 +32,8 @@ function OnMouseLeave() {
 }
 
 async function OnClick() {
-  if (ClickSound.playing()) {
-    Events('onClick')
-    return
-  }
+  AudioManager.PlaySound('Click_01')
 
-  ClickSound.play()
   Events('onClick')
 }
 </script>

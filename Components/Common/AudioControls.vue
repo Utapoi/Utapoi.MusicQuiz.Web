@@ -1,15 +1,12 @@
 <script setup lang="ts">
+import { useAudioManager } from '~/Composables/Managers/AudioManager'
 import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
 
 const GlobalSettings = useGlobalSettings()
+const AudioManager = useAudioManager()
 
 const CurrentTarget = ref<'Effects' | 'Music' | undefined>()
 const AreControlsVisible = ref<boolean>(false)
-
-const ScrollSound = computed(() => new Howl({
-  src: ['/sfx/Mouse_Scroll.wav'],
-  volume: GlobalSettings.GetEffectsVolume(),
-}))
 
 const ShouldHideControls = useTimeoutFn(() => {
   AreControlsVisible.value = false
@@ -22,7 +19,7 @@ const OnWheelStop = useTimeoutFn(() => {
 
 window.onwheel = (e) => {
   if (CurrentTarget.value !== undefined)
-    ScrollSound.value.play()
+    AudioManager.PlaySound('Scroll_01', true)
 
   if (!OnWheelStop.isPending)
     OnWheelStop.stop()

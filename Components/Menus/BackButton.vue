@@ -1,33 +1,16 @@
 <script setup lang="ts">
-import { useTriangleParticles } from '~/Composables/Common/TriangleParticles'
-import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
+import { useAudioManager } from '~/Composables/Managers/AudioManager'
 
 const Router = useRouter()
-const TriangleParticles = useTriangleParticles()
-const GlobalSettings = useGlobalSettings()
-
-const HoverSound = new Howl({
-  src: ['/sfx/Button_Hover.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
-
-const ClickSound = new Howl({
-  src: ['/sfx/Button_Click.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
+const AudioManager = useAudioManager()
 
 function OnMouseEnter() {
-  if (HoverSound.playing())
-    return
-
-  HoverSound.play()
+  AudioManager.PlaySound('Hover_01')
 }
 
 async function OnClick() {
-  if (ClickSound.playing())
-    return
+  AudioManager.PlaySound('Click_01')
 
-  ClickSound.play()
   return Router.back()
 }
 </script>
@@ -39,6 +22,7 @@ async function OnClick() {
     @click.prevent="OnClick"
   >
     <div class="relative h-full w-full transition-all duration-105 hover:-translate-x-2">
+      <!-- Makes everything laggy and I don't know why. -->
       <!-- <Particles
         id="back-button-particles"
         :particles-init="TriangleParticles.Initialize"

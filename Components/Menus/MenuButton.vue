@@ -1,64 +1,47 @@
 <script setup lang="ts">
-import { Howl } from 'howler'
-import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
+import { useAudioManager } from '~/Composables/Managers/AudioManager'
 
 export interface IMenuButtonProps {
   icon: string
   link?: string | undefined
 }
 
-const Props = defineProps<IMenuButtonProps>()
+// Props
+defineProps<IMenuButtonProps>()
 
+// Emits
 const Events = defineEmits<{
   (e: 'onClick'): void
 }>()
 
-const Router = useRouter()
-const GlobalSettings = useGlobalSettings()
+// Composables
+const AudioManager = useAudioManager()
 
-const HoverSound = new Howl({
-  src: ['/sfx/Button_Hover.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
-
-const ClickSound = new Howl({
-  src: ['/sfx/Button_Click.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-})
-
+// Methods
 function OnMouseEnter() {
-  if (HoverSound.playing())
-    return
-
-  HoverSound.play()
+  AudioManager.PlaySound('Hover_01')
 }
 
-async function OnClick() {
-  if (ClickSound.playing()) {
-    if (Props.link === undefined)
-      return
+function OnClick() {
+  AudioManager.PlaySound('Click_01')
 
-    if (Props.link.startsWith('http'))
-      return window.open(Props.link, '_blank')
-    else
-      await Router.push(Props.link)
-  }
-
-  ClickSound.play()
   Events('onClick')
-
-  if (Props.link === undefined)
-    return
-
-  if (Props.link.startsWith('http'))
-    return window.open(Props.link, '_blank')
-  else
-    await Router.push(Props.link)
 }
 </script>
 
 <template>
+  <NuxtLink
+    v-if="link !== undefined"
+    :to="link"
+    :target="link.startsWith('http') ? '_blank' : '_self'"
+    class="cursor-pointer p-2 text-latte-text transition-all duration-150 hover:border-rounded-md hover:bg-latte-overlay0/25 dark:text-mocha-text !outline-none hover:dark:bg-mocha-overlay0/25"
+    @mouseenter="OnMouseEnter"
+    @click.prevent="OnClick"
+  >
+    <div :class="`${icon}`" />
+  </NuxtLink>
   <div
+    v-else
     class="cursor-pointer p-2 text-latte-text transition-all duration-150 hover:border-rounded-md hover:bg-latte-overlay0/25 dark:text-mocha-text !outline-none hover:dark:bg-mocha-overlay0/25"
     @mouseenter="OnMouseEnter"
     @click.prevent="OnClick"

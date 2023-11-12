@@ -17,7 +17,7 @@ const GameSettingsStore = useGameSettingsStore()
 <!-- * Le background aussi doit changer, revoir le blur et ajouter un background avec opacité pour rendre les cards plus visible ? -->
 <!-- * Il faut aussi ajouter un carousel horizontal pour gérer les différentes tailles d'écran et les potentiels futurs modes. -->
 <template>
-  <div class="h-full w-full flex items-center justify-center bg-[url(/images/HomeScreen_Wallpaper.png)] text-latte-text dark:text-mocha-text">
+  <div class="h-full w-full flex items-center justify-center bg-[url(/images/HomeScreen_Wallpaper.png)] bg-cover text-latte-text dark:text-mocha-text">
     <div class="h-full w-full backdrop-blur-xl">
       <div class="h-full w-full flex items-center justify-center gap-6">
         <!-- Mode #1: Songs + Singers -->

@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     { path: '~/Components/Auth' },
     { path: '~/Components/Common' },
     { path: '~/Components/Forms' },
+    { path: '~/Components/Game' },
     { path: '~/Components/Menus' },
     { path: '~/Components/Rooms' },
     { path: '~/Components/Users' },

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Howl } from 'howler'
-import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
-import { useTriangleParticles } from '~/Composables/Common/TriangleParticles'
+import { useAudioManager } from '~/Composables/Managers/AudioManager'
+import { TRIANGLE_PARTICLES_OPTIONS } from '~/Core/Constants/ParticlesOptions'
 
 export interface IMenuCardProps {
   title?: string
@@ -10,53 +9,37 @@ export interface IMenuCardProps {
   link: string
 }
 
+// Props
 const Props = defineProps<IMenuCardProps>()
 
-const TriangleParticles = useTriangleParticles()
-const GlobalSettings = useGlobalSettings()
+// Composables
+const AudioManager = useAudioManager()
 
-const CardRef = ref<HTMLElement | null>(null)
+// Refs
+const IsHovered = ref<boolean>(false)
 
+// Computed
 const ImageBg = computed(() => {
   return `url(${Props.image})`
 })
 
-const IsHovered = ref<boolean>(false)
-
-const HoverSound = computed(() => new Howl({
-  src: ['/sfx/Button_Hover.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-}))
-
-const ClickSound = computed(() => new Howl({
-  src: ['/sfx/Button_Click.ogg'],
-  volume: GlobalSettings.GetEffectsVolume(),
-}))
-
+// Methods
 function OnMouseEnter() {
   IsHovered.value = true
-
-  if (HoverSound.value.playing())
-    return
-
-  HoverSound.value.play()
+  AudioManager.PlaySound('Hover_01')
 }
 
 function OnMouseLeave() {
   IsHovered.value = false
 }
 
-async function OnClick() {
-  if (ClickSound.value.playing())
-    return
-
-  ClickSound.value.play()
+function OnClick() {
+  AudioManager.PlaySound('Click_01')
 }
 </script>
 
 <template>
   <NuxtLink
-    ref="CardRef"
     :to="link"
     :target="link.startsWith('http') ? '_blank' : '_self'"
     class="custom-grid-item transform-gpu bg-white p-1.5 transition-all duration-100 !hover:scale-105 !hover:-rotate-45"
@@ -66,10 +49,8 @@ async function OnClick() {
   >
     <div class="rhombus menu-card-bg h-full w-full bg-cover">
       <div class="h-full w-full bg-black/75">
-        <Particles
-          :id="`particles-${title}-${icon}`"
-          :particles-init="TriangleParticles.Initialize"
-          :options="TriangleParticles.ParticlesOptions"
+        <SimplifiedParticles
+          :options="TRIANGLE_PARTICLES_OPTIONS"
         />
         <div v-if="icon" class="h-full w-full flex items-center justify-center text-4xl font-semibold uppercase text-white">
           <p :class="icon" />
