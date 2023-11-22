@@ -19,50 +19,64 @@ const GameSettingsStore = useGameSettingsStore()
 <template>
   <div class="h-full w-full flex items-center justify-center bg-[url(/images/HomeScreen_Wallpaper.png)] bg-cover text-latte-text dark:text-mocha-text">
     <div class="h-full w-full backdrop-blur-xl">
-      <div class="h-full w-full flex items-center justify-center gap-6">
-        <!-- Mode #1: Songs + Singers -->
-        <GameModeSelectionCard
-          title="Songs & Singers"
-          subtitle="The default mode provides you with randomly selected songs either from a collection of your choosing or from various collections."
-          class="h-96 w-96"
-          @on-click="() => {
-            GameSettingsStore.SetGameMode(GameMode.SongsWithSingers)
-            return Router.push('/game/selection')
-          }"
-        />
+      <div class="h-full w-full flex items-center justify-center">
+        <Swiper
+          :slides-per-view="6"
+          :centered-slides="true"
+          class="h-min w-full pt-10"
+        >
+          <SwiperSlide class="h-min w-min">
+            <!-- Mode #1: Songs + Singers -->
+            <GameModeSelectionCard
+              title="Songs & Singers"
+              subtitle="The default mode provides you with randomly selected songs either from a collection of your choosing or from various collections."
+              class="h-96 w-96"
+              @on-click="() => {
+                GameSettingsStore.SetGameMode(GameMode.SongsWithSingers)
+                return Router.push('/game/selection')
+              }"
+            />
+          </SwiperSlide>
 
-        <!-- Mode #2: Singers Only -->
-        <GameModeSelectionCard
-          title="Singers"
-          subtitle="Play with random songs either from a collection you've selected or from various collections, and you only have to guess the singer."
-          class="h-96 w-96"
-          @on-click="() => {
-            GameSettingsStore.SetGameMode(GameMode.SingersOnly)
-            return Router.push('/game/selection')
-          }"
-        />
+          <SwiperSlide>
+            <!-- Mode #2: Singers Only -->
+            <GameModeSelectionCard
+              title="Singers"
+              subtitle="Play with random songs either from a collection you've selected or from various collections, and you only have to guess the singer."
+              class="h-96 w-96"
+              @on-click="() => {
+                GameSettingsStore.SetGameMode(GameMode.SingersOnly)
+                return Router.push('/game/selection')
+              }"
+            />
+          </SwiperSlide>
 
-        <!-- Mode #3: Songs -->
-        <GameModeSelectionCard
-          title="Songs"
-          subtitle="Play with random songs either from a collection you've selected or from various collections, and you only have to guess the title of the song."
-          class="h-96 w-96"
-          @on-click="() => {
-            GameSettingsStore.SetGameMode(GameMode.SongsOnly)
-            return Router.push('/game/selection')
-          }"
-        />
+          <SwiperSlide>
+            <!-- Mode #3: Songs -->
+            <GameModeSelectionCard
+              title="Songs"
+              subtitle="Play with random songs either from a collection you've selected or from various collections, and you only have to guess the title of the song."
+              class="h-96 w-96"
+              @on-click="() => {
+                GameSettingsStore.SetGameMode(GameMode.SongsOnly)
+                return Router.push('/game/selection')
+              }"
+            />
+          </SwiperSlide>
 
-        <!-- Mode #5: Anime Songs -->
-        <GameModeSelectionCard
-          title="Anime Songs"
-          subtitle="Play with random songs either from a collection you've selected or from various anime, and you have to guess the title of the anime."
-          class="h-96 w-96"
-          @on-click="() => {
-            GameSettingsStore.SetGameMode(GameMode.AnimeSongs)
-            return Router.push('/game/selection')
-          }"
-        />
+          <SwiperSlide>
+            <!-- Mode #4: Anime Songs -->
+            <GameModeSelectionCard
+              title="Anime Songs"
+              subtitle="Play with random songs either from a collection you've selected or from various anime, and you have to guess the title of the anime."
+              class="h-96 w-96"
+              @on-click="() => {
+                GameSettingsStore.SetGameMode(GameMode.AnimeSongs)
+                return Router.push('/game/selection')
+              }"
+            />
+          </SwiperSlide>
+        </Swiper>
       </div>
     </div>
   </div>

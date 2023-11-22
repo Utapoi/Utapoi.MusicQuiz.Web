@@ -43,6 +43,7 @@
     "@microsoft/signalr": "^7.0.12",
     "@types/signalr": "^2.4.1",
     "howler": "^2.2.4",
+    "nuxt-swiper": "^1.2.2",
     "tsparticles": "^2.12.0",
     "vue3-particles": "^2.12.0"
   }

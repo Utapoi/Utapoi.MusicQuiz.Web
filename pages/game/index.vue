@@ -21,7 +21,6 @@ useTimeoutFn(() => {
     <div class="h-full w-full flex flex-col bg-black/50 pb-4 pt-24 backdrop-blur-md">
       <!-- Grid #1 -->
       <div class="h-full w-full">
-        <!-- Did some test with WaveSurfer.js, not really engaging visuals. -->
         <!-- The best solution would probably be an Audio Visualizer around the screen with a placeholder for the response at the top -->
         <div class="relative mx-auto h-76 w-76 ring-3 ring-white">
           <NuxtImg
@@ -41,11 +40,16 @@ useTimeoutFn(() => {
       </div>
 
       <!-- Grid #3 -->
-      <div class="h-full w-full inline-flex">
-        <!-- TODO: Probablement transformer en carousel si on veut pouvoir faire des rooms de +9 personnes... -->
-        <div class="w-full flex items-end justify-center gap-4">
-          <PlayerCard v-for="i in 8" :key="i" :is-host="i === 1" :current-ranking="i" />
-        </div>
+      <div class="h-full w-full inline-flex items-end">
+        <Swiper
+          :slides-per-view="13"
+          :centered-slides="false"
+          class="h-min w-full px-5"
+        >
+          <SwiperSlide v-for="i in 8" :key="i" class="h-min w-min">
+            <PlayerCard :is-host="i === 1" :current-ranking="i" />
+          </SwiperSlide>
+        </Swiper>
       </div>
     </div>
   </div>

@@ -16,7 +16,12 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/image',
     '@vite-pwa/nuxt',
+    'nuxt-swiper',
   ],
+
+  swiper: {
+    styleLang: 'css',
+  },
 
   pwa,
 

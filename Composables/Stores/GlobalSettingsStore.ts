@@ -1,11 +1,14 @@
 export const useGlobalSettings = defineStore('GlobalSettings', () => {
   const MusicVolume = ref(15)
   const EffectsVolume = ref(50)
+  const MainVolume = ref(50)
 
   // TODO: Store preferences in local storage or on the server.
 
   function GetMusicVolume(): number {
-    return MusicVolume.value / 100
+    const totalVolume = MusicVolume.value / 100 + MainVolume.value / 100
+
+    return Math.min(1, Math.max(0, totalVolume))
   }
 
   function GetRawMusicVolume(): number {
@@ -13,11 +16,21 @@ export const useGlobalSettings = defineStore('GlobalSettings', () => {
   }
 
   function GetEffectsVolume(): number {
-    return EffectsVolume.value / 100
+    const totalVolume = EffectsVolume.value / 100 + MainVolume.value / 100
+
+    return Math.min(1, Math.max(0, totalVolume))
   }
 
   function GetRawEffectsVolume(): number {
     return EffectsVolume.value
+  }
+
+  function GetMainVolume(): number {
+    return MainVolume.value / 100
+  }
+
+  function GetRawMainVolume(): number {
+    return MainVolume.value
   }
 
   function SetMusicVolume(amount: number): void {
@@ -40,12 +53,25 @@ export const useGlobalSettings = defineStore('GlobalSettings', () => {
       EffectsVolume.value = 0
   }
 
+  function SetMainVolume(amount: number): void {
+    MainVolume.value += amount
+
+    if (MainVolume.value > 100)
+      MainVolume.value = 100
+
+    if (MainVolume.value < 0)
+      MainVolume.value = 0
+  }
+
   return {
     GetMusicVolume,
     GetRawMusicVolume,
     GetEffectsVolume,
     GetRawEffectsVolume,
+    GetMainVolume,
+    GetRawMainVolume,
     SetMusicVolume,
     SetEffectsVolume,
+    SetMainVolume,
   }
 })

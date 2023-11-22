@@ -5,7 +5,7 @@ import { useGlobalSettings } from '~/Composables/Stores/GlobalSettingsStore'
 const GlobalSettings = useGlobalSettings()
 const AudioManager = useAudioManager()
 
-const CurrentTarget = ref<'Effects' | 'Music' | undefined>()
+const CurrentTarget = ref<'Effects' | 'Music' | 'Main' | undefined>()
 const AreControlsVisible = ref<boolean>(false)
 
 const ShouldHideControls = useTimeoutFn(() => {
@@ -46,6 +46,8 @@ function OnScroll(e: WheelEvent) {
     GlobalSettings.SetEffectsVolume(Value)
   else if (CurrentTarget.value === 'Music')
     GlobalSettings.SetMusicVolume(Value)
+  else if (CurrentTarget.value === 'Main')
+    GlobalSettings.SetMainVolume(Value)
 }
 </script>
 
@@ -71,6 +73,25 @@ function OnScroll(e: WheelEvent) {
           </p>
           <ProgressRing
             :radius="50" :progress="GlobalSettings.GetRawEffectsVolume()" :stroke="5" color="#fff" class="z-3"
+          />
+        </div>
+      </div>
+
+      <!-- Main Volume -->
+      <div class="flex items-center gap-3 font-sans">
+        <div class="inline-flex items-center justify-center rounded-full bg-latte-surface0 px-3 pt-1 uppercase text-latte-text shadow dark:bg-mocha-surface0 dark:text-mocha-text">
+          Main
+        </div>
+        <div
+          class="relative cursor-pointer select-none rounded-full bg-latte-surface0 p-2 transition-all duration-105 hover:scale-105 dark:bg-mocha-surface0"
+          @mouseenter="CurrentTarget = 'Main'"
+          @mouseleave="CurrentTarget = undefined"
+        >
+          <p class="absolute left-50% top-50% text-xl text-latte-text -translate-x-50% -translate-y-50% dark:text-mocha-text">
+            {{ GlobalSettings.GetRawMainVolume() }}
+          </p>
+          <ProgressRing
+            :radius="60" :progress="GlobalSettings.GetRawMainVolume()" :stroke="5" color="#fff" class="z-3"
           />
         </div>
       </div>

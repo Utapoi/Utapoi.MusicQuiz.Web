@@ -40,7 +40,7 @@ async function OnClick() {
 
 <template>
   <div
-    class="h-4/5 transform-gpu cursor-pointer pl-1 transition-all duration-115 hover:scale-105"
+    class="h-76 w-76 transform-gpu cursor-pointer pl-1 transition-all duration-115 hover:scale-105"
     :class="{
       'bg-latte-surface1 dark:bg-white': IsHovered,
       'bg-latte-surface2 dark:bg-black': !IsHovered,
