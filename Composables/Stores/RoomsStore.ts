@@ -2,6 +2,7 @@ import { useHttpClient } from '~/Composables/Clients/HttpClient'
 import { ApiError } from '~/Core/Models/Error'
 import { type IRoom, Room } from '~/Core/Models/Room'
 import type { CreateRoomRequest } from '~/Core/Requests/Rooms/CreateRoomRequest'
+import type { CreateRoomResponse } from '~/Core/Responses/Rooms/CreateRoomResponse'
 import type { GetRoomsResponse } from '~/Core/Responses/Rooms/GetRoomsResponse'
 
 export const useRoomsStore = defineStore('rooms', () => {
@@ -30,13 +31,13 @@ export const useRoomsStore = defineStore('rooms', () => {
     return Rooms.value
   }
 
-  async function CreateAsync(request: CreateRoomRequest): Promise<Room | ApiError> {
-    const response = await HttpClient.Post<IRoom>('/Rooms', {}, request)
+  async function CreateAsync(request: CreateRoomRequest): Promise<string | ApiError> {
+    const response = await HttpClient.Post<CreateRoomResponse>('/Rooms', {}, request)
 
     if (response instanceof ApiError)
       return response
 
-    return Room.FromResponse(response as IRoom)
+    return response?.RoomId ?? ''
   }
 
   return {

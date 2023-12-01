@@ -35,7 +35,7 @@ const HasSearchFilters = computed<boolean>(() => {
 })
 
 // Initialization
-// Rooms.value = await RoomsStore.GetAllAsync()
+Rooms.value = await RoomsStore.GetAllAsync()
 
 // Debounced Methods
 const SearchAsyncDebounced = useDebounceFn(async () => {

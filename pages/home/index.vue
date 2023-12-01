@@ -2,7 +2,6 @@
 import { UseHub } from '~/Composables/Stores/UseHub'
 
 const Hub = UseHub()
-
 await Hub.ConnectAsync()
 
 // await Hub.SendAsync('JoinRoom', {

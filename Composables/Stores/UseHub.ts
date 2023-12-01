@@ -18,14 +18,14 @@ export const UseHub = defineStore('UseHub', () => {
   }
 
   async function SendAsync<T>(methodName: string, params: any): Promise<T> {
-    if (!Connection.value)
+    if (!Connection.value || Connection.value.state !== 'Connected')
       await ConnectAsync()
 
     return Connection.value!.invoke(methodName, params)
   }
 
   async function On<T>(methodName: string, callback: (data: T) => void) {
-    if (!Connection.value)
+    if (!Connection.value || Connection.value.state !== 'Connected')
       await ConnectAsync()
 
     return Connection.value!.on(methodName, (data: T) => {
@@ -34,6 +34,7 @@ export const UseHub = defineStore('UseHub', () => {
   }
 
   return {
+    Connection,
     ConnectAsync,
     SendAsync,
     On,

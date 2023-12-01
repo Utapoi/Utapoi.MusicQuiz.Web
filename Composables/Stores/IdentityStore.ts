@@ -57,6 +57,13 @@ export const useIdentityStore = defineStore('identity', () => {
     return CurrentUser.value.Username
   }
 
+  function GetUserId(): string {
+    if (CurrentUser.value === undefined)
+      return ''
+
+    return CurrentUser.value.Id
+  }
+
   function HasAvatar(): boolean {
     return false
   }
@@ -72,6 +79,7 @@ export const useIdentityStore = defineStore('identity', () => {
     IsAuthenticated,
     GetCurrentUser,
     GetUsername,
+    GetUserId,
     HasAvatar,
     GetAvatar,
   }

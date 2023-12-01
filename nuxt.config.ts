@@ -30,6 +30,10 @@ export default defineNuxtConfig({
       src: '~/plugins/vue3-particles.ts',
       ssr: false,
     },
+    {
+      src: '~/plugins/signalr-hub.ts',
+      ssr: false,
+    },
   ],
 
   colorMode: {
@@ -103,7 +107,7 @@ export default defineNuxtConfig({
       DOMAIN: 'localhost',
       AUTH_API_URL: 'https://localhost:7244',
       UTAPOI_API_URL: 'https://localhost:7215', // 'http://localhost:5215',
-      MQ_SIGNALR_URL: 'https://localhost:7027/SignalR', // 'http://localhost:5215',
+      MQ_SIGNALR_URL: 'https://localhost:7027/RoomsHub', // 'http://localhost:5215',
       MQ_API_URL: 'https://localhost:7027',
     },
   },

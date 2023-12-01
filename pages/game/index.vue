@@ -5,15 +5,26 @@
     I have no idea for the UI...
  -->
 <script setup lang="ts">
+import { useGameManager } from '~/Composables/Managers/GameManager'
+import { useIdentityStore } from '~/Composables/Stores/IdentityStore'
+
 useHead({
   title: 'Music Quiz | Utapoi',
 })
 
-const ShowResults = ref(false)
+const GameManager = useGameManager()
+const IdentityStore = useIdentityStore()
+const { $HubConnection } = useNuxtApp()
 
-useTimeoutFn(() => {
-  ShowResults.value = true
-}, 10000)
+onBeforeRouteLeave(async () => {
+  // TODO: Pop-up to confirm leaving the game.
+  await $HubConnection.SendAsync('LeaveRoom', {
+    roomId: GameManager.CurrentRoom.Id,
+    userId: IdentityStore.GetUserId(),
+  })
+})
+
+const ShowResults = ref(false)
 </script>
 
 <template>
@@ -40,13 +51,15 @@ useTimeoutFn(() => {
       </div>
 
       <!-- Grid #3 -->
-      <div class="h-full w-full inline-flex items-end">
+      <div class="h-full w-full inline-flex items-end justify-center">
+        <!-- TODO: Remplacer 8 / 2 par  Players / 2 -->
         <Swiper
-          :slides-per-view="13"
-          :centered-slides="false"
-          class="h-min w-full px-5"
+          slides-per-view="auto"
+          :centered-slides="true"
+          :initial-slide="8 / 2"
+          class="mx-auto h-min w-full px-5"
         >
-          <SwiperSlide v-for="i in 8" :key="i" class="h-min w-min">
+          <SwiperSlide v-for="i in 8" :key="i" class="mx-1 h-min w-min">
             <PlayerCard :is-host="i === 1" :current-ranking="i" />
           </SwiperSlide>
         </Swiper>

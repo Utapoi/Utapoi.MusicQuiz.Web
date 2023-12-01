@@ -55,7 +55,7 @@ const GetCurrentRankingColor = computed(() => {
 
 <!-- TODO: A lot of w-x everywhere, maybe we can avoid this? -->
 <template>
-  <div class="relative w-min">
+  <div class="relative w-min select-none">
     <div
       class="h-52 w-32 p-1 transition-all duration-125 -skew-x-4"
       :class="{

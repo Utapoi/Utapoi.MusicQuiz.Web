@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useGameManager } from '~/Composables/Managers/GameManager'
 import { useGameSettingsStore } from '~/Composables/Stores/GameSettingsStore'
+import { useIdentityStore } from '~/Composables/Stores/IdentityStore'
 import { GameMode } from '~/Core/Enums/GameMode'
+import { RoomType } from '~/Core/Enums/RoomType'
+import type { IRoom } from '~/Core/Models/Room'
 
 useHead({
   title: 'Game Mode Selection | Utapoi',
@@ -8,6 +12,27 @@ useHead({
 
 const Router = useRouter()
 const GameSettingsStore = useGameSettingsStore()
+const IdentityStore = useIdentityStore()
+const GameManager = useGameManager()
+const { $HubConnection } = useNuxtApp()
+
+$HubConnection.On<IRoom>('OnRoomCreated', (data) => {
+  GameManager.CurrentRoom = data
+})
+
+$HubConnection.SendAsync('CreateRoom', {
+  name: `${IdentityStore.GetUsername()}'s Room`,
+  userId: IdentityStore.GetUserId(),
+  type: RoomType.SinglePlayer,
+})
+
+async function StartGame() {
+  await $HubConnection.SendAsync('StartGame', {
+    roomId: GameManager.CurrentRoom.Id,
+  })
+
+  Router.push('/game')
+}
 </script>
 
 <!-- ? Note(Mikyan): Something is missing here. Not really satisfied with the current design. -->
@@ -16,13 +41,14 @@ const GameSettingsStore = useGameSettingsStore()
 <!-- * Plutôt satisfait avec la forme des cards. Il manque encore à retravailler le titre et probablement supprimer les particles pour ces cards là. -->
 <!-- * Le background aussi doit changer, revoir le blur et ajouter un background avec opacité pour rendre les cards plus visible ? -->
 <!-- * Il faut aussi ajouter un carousel horizontal pour gérer les différentes tailles d'écran et les potentiels futurs modes. -->
+<!-- 25/11/2023: Est-ce que le carousel est vraiment une bonne idée? Niveau responsive c'est 0/20... -->
 <template>
   <div class="h-full w-full flex items-center justify-center bg-[url(/images/HomeScreen_Wallpaper.png)] bg-cover text-latte-text dark:text-mocha-text">
     <div class="h-full w-full backdrop-blur-xl">
       <div class="h-full w-full flex items-center justify-center">
         <Swiper
-          :slides-per-view="6"
           :centered-slides="true"
+          :centered-slides-bounds="true"
           class="h-min w-full pt-10"
         >
           <SwiperSlide class="h-min w-min">
@@ -80,7 +106,13 @@ const GameSettingsStore = useGameSettingsStore()
       </div>
     </div>
   </div>
-  <div class="absolute bottom-0 left-0 h-14 w-full bg-black/75 font-sans lowercase">
+  <div class="absolute bottom-0 left-0 h-14 w-full flex items-center justify-between bg-black/75 font-sans lowercase">
     <BackButton />
+    <button
+      class="rounded-full bg-latte-surface1 px-4 py-2 text-2xl font-bold text-latte-text dark:bg-mocha-surface1 dark:text-mocha-text"
+      @click.prevent="StartGame"
+    >
+      Start
+    </button>
   </div>
 </template>

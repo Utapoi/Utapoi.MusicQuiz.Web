@@ -5,6 +5,7 @@ import { ApiError } from '~/Core/Models/Error'
 import type { ICreateRoomInfo } from '~/Core/Forms/Rooms/CreateRoomInfo'
 import { useRoomsStore } from '~/Composables/Stores/RoomsStore'
 import { CreateRoomRequest } from '~/Core/Requests/Rooms/CreateRoomRequest'
+import { RoomType } from '~/Core/Enums/RoomType'
 
 useHead({
   title: 'Create Room · Utapoi',
@@ -22,6 +23,7 @@ const Info = reactive<ICreateRoomInfo>({
   Password: '',
   MaxPlayers: 4,
   Rounds: 20,
+  Type: RoomType.MultiPlayer,
 })
 
 const RoomsStore = useRoomsStore()
@@ -100,7 +102,7 @@ async function OnSubmit() {
         <!-- Submit / Back -->
         <div class="mt-4 w-full inline-flex justify-between">
           <NuxtLink
-            to="/rooms"
+            to="/multiplayer"
             class="h-min cursor-pointer rounded-full px-4 py-2 font-semibold uppercase text-latte-text ring-2 ring-latte-lavender transition-all duration-150 hover:bg-latte-lavender dark:text-mocha-text hover:text-latte-base hover:ring-0 dark:ring-mocha-lavender hover:dark:bg-mocha-lavender hover:dark:text-mocha-base"
           >
             Back
